@@ -1,54 +1,75 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.NUMERIC_STD.ALL;
 
-entity Twinkle_Top is
-    Port (
-        clk : in STD_LOGIC;
-        speaker_out : out STD_LOGIC
-    );
-end Twinkle_Top;
+entity KaraokeMachine is
+    Port ( clk : in STD_LOGIC;
+           reset : in STD_LOGIC;
+           play_pause : in STD_LOGIC;
+           restart : in STD_LOGIC;
+           hsync : out STD_LOGIC;
+           vsync : out STD_LOGIC;
+           rgb : out STD_LOGIC_VECTOR(2 downto 0);
+           tone_out : out STD_LOGIC);
+end KaraokeMachine;
 
-architecture Behavioral of Twinkle_Top is
-    signal note_freq : INTEGER;
-    signal note_duration : INTEGER;
-    signal pwm_signal : STD_LOGIC;
-    signal rom_addr : INTEGER range 0 to 15 := 0;
-    signal timer : INTEGER := 0;
+architecture Behavioral of KaraokeMachine is
+    signal tone : STD_LOGIC;
+    signal state : STD_LOGIC_VECTOR(1 downto 0);
+
+    component ToneGenerator
+        Port ( clk : in STD_LOGIC;
+               reset : in STD_LOGIC;
+               tone_out : out STD_LOGIC);
+    end component;
+
+    component ButtonControl
+        Port ( clk : in STD_LOGIC;
+               reset : in STD_LOGIC;
+               play_pause : in STD_LOGIC;
+               restart : in STD_LOGIC;
+               state : out STD_LOGIC_VECTOR(1 downto 0));
+    end component;
+
+    component VGA_Controller
+        Port ( clk : in STD_LOGIC;
+               reset : in STD_LOGIC;
+               hsync : out STD_LOGIC;
+               vsync : out STD_LOGIC;
+               rgb : out STD_LOGIC_VECTOR(2 downto 0));
+    end component;
+
+    component MelodyGenerator
+        Port ( clk : in STD_LOGIC;
+               reset : in STD_LOGIC;
+               play : in STD_LOGIC;
+               tone_out : out STD_LOGIC);
+    end component;
+
 begin
-    -- Instantiate Song ROM
-    Song_ROM_inst : entity work.Song_ROM
-        Port Map (
-            clk => clk,
-            addr => rom_addr,
-            frequency => note_freq,
-            duration => note_duration
-        );
+    ToneGen: ToneGenerator
+        Port map ( clk => clk,
+                   reset => reset,
+                   tone_out => tone);
 
-    -- Instantiate PWM Generator
-    PWM_Generator_inst : entity work.PWM_Generator
-        Port Map (
-            clk => clk,
-            frequency => note_freq,
-            pwm_out => pwm_signal
-        );
+    ButtonCtrl: ButtonControl
+        Port map ( clk => clk,
+                   reset => reset,
+                   play_pause => play_pause,
+                   restart => restart,
+                   state => state);
 
-    -- Playback Controller
-    process(clk)
-    begin
-        if rising_edge(clk) then
-            if timer = (note_duration * 100000) then -- Convert ms to clock cycles
-                timer <= 0;
-                if rom_addr = 13 then
-                    rom_addr <= 0; -- Loop back to the beginning
-                else
-                    rom_addr <= rom_addr + 1;
-                end if;
-            else
-                timer <= timer + 1;
-            end if;
-        end if;
-    end process;
+    VGA: VGA_Controller
+        Port map ( clk => clk,
+                   reset => reset,
+                   hsync => hsync,
+                   vsync => vsync,
+                   rgb => rgb);
 
-    speaker_out <= pwm_signal; -- Connect PWM output to speaker
+    MelodyGen: MelodyGenerator
+        Port map ( clk => clk,
+                   reset => reset,
+                   play => play_pause,
+                   tone_out => tone);
+
+    tone_out <= tone;
 end Behavioral;
