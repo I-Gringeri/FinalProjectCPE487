@@ -1,4 +1,4 @@
-# FinalProjectCPE487
+# CPE 487 Final Project
 ### Danielle Bonk, Isabel Gringeri, William Hines
 
 ## Our Project: A Karaoke Machine
