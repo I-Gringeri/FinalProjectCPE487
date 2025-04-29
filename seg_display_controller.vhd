@@ -7,8 +7,8 @@ entity seg_display_controller is
         clk          : in  STD_LOGIC;
         reset        : in  STD_LOGIC;
         current_lyric : in  STD_LOGIC_VECTOR(2 downto 0);
-        CA, CB, CC, CD, CE, CF, CG, DP : out STD_LOGIC;
-        AN          : out STD_LOGIC_VECTOR(7 downto 0)
+        CA1, CB1, CC1, CD1, CE1, CF1, CG1, DP1 : out STD_LOGIC;
+        disp          : out STD_LOGIC_VECTOR(7 downto 0)
     );
 end seg_display_controller;
 
@@ -103,20 +103,20 @@ begin
     end process;
     
     -- Assign segments
-    CA <= seg_pattern(0);
-    CB <= seg_pattern(1);
-    CC <= seg_pattern(2);
-    CD <= seg_pattern(3);
-    CE <= seg_pattern(4);
-    CF <= seg_pattern(5);
-    CG <= seg_pattern(6);
-    DP <= '1';  -- Decimal point off
+    CA1 <= seg_pattern(0);
+    CB1 <= seg_pattern(1);
+    CC1 <= seg_pattern(2);
+    CD1 <= seg_pattern(3);
+    CE1 <= seg_pattern(4);
+    CF1 <= seg_pattern(5);
+    CG1 <= seg_pattern(6);
+    DP1 <= '1';  -- Decimal point off
     
     -- Activate the current digit (active low)
     process(seg_digit)
     begin
-        AN <= (others => '1');  -- All digits off
-        AN(to_integer(seg_digit)) <= '0';  -- Current digit on
+        disp <= (others => '1');  -- All digits off
+        disp(to_integer(seg_digit)) <= '0';  -- Current digit on
     end process;
     
 end Behavioral;
