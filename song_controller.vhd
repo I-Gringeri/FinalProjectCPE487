@@ -7,7 +7,7 @@ entity song_controller is
         clk          : in  STD_LOGIC;
         reset        : in  STD_LOGIC;
         btn_debounced : in  STD_LOGIC_VECTOR(3 downto 0);
-        sw           : in  STD_LOGIC_VECTOR(7 downto 0);
+        switch           : in  STD_LOGIC_VECTOR(7 downto 0);
         song_state   : out STD_LOGIC_VECTOR(1 downto 0);
         note_index   : out STD_LOGIC_VECTOR(5 downto 0);
         current_lyric : out STD_LOGIC_VECTOR(2 downto 0);
@@ -112,7 +112,7 @@ begin
             end if;
             
             -- Update microphone volume from switches
-            vol_mic <= unsigned(sw);
+            vol_mic <= unsigned(switch);
             
             -- Store previous button states
             btn_prev <= btn_debounced;
