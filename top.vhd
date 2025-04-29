@@ -5,33 +5,33 @@ use IEEE.NUMERIC_STD.ALL;
 entity nexys_twinkle_karaoke is
     Port (
         -- Nexys A7 System Clock (100 MHz)
-        CLK100MHZ   : in  STD_LOGIC;
+        clk_100MHz   : in  STD_LOGIC;
         
         -- Reset button (active-low on Nexys A7)
-        BTNC        : in  STD_LOGIC;  -- Center button for reset
+        reset_btn        : in  STD_LOGIC;  -- Center button for reset
         
         -- Control buttons
-        BTNU        : in  STD_LOGIC;  -- Up button - Start/Pause song
-        BTNL        : in  STD_LOGIC;  -- Left button - Decrease music volume
-        BTNR        : in  STD_LOGIC;  -- Right button - Increase music volume
-        BTND        : in  STD_LOGIC;  -- Down button - Toggle echo effect
+        up_btn        : in  STD_LOGIC;  -- Up button - Start/Pause song
+        left_btn        : in  STD_LOGIC;  -- Left button - Decrease music volume
+        right_btn        : in  STD_LOGIC;  -- Right button - Increase music volume
+        down_btn        : in  STD_LOGIC;  -- Down button - Toggle echo effect
         
         -- Switches for configuration
-        SW          : in  STD_LOGIC_VECTOR(15 downto 0);
+        Switch          : in  STD_LOGIC_VECTOR(15 downto 0);
         
         -- LEDs for visual feedback
         LED         : out STD_LOGIC_VECTOR(15 downto 0);
         
         -- 7-segment display
-        CA, CB, CC, CD, CE, CF, CG, DP : out STD_LOGIC;
-        AN          : out STD_LOGIC_VECTOR(7 downto 0);
+        CA1, CB1, CC1, CD1, CE1, CF1, CG1, DP1 : out STD_LOGIC;
+        disp          : out STD_LOGIC_VECTOR(7 downto 0);
         
         -- Audio output via PWM (connect to onboard audio jack)
-        AUD_PWM     : out STD_LOGIC;
-        AUD_SD      : out STD_LOGIC;
+        pwm_btn     : out STD_LOGIC;
+        sd_btn      : out STD_LOGIC;
         
         -- Microphone input (assuming PDM microphone connected to JA Pmod)
-        JA          : in  STD_LOGIC_VECTOR(7 downto 0)
+        mic          : in  STD_LOGIC_VECTOR(7 downto 0)
     );
 end nexys_twinkle_karaoke;
 
@@ -66,15 +66,15 @@ architecture Behavioral of nexys_twinkle_karaoke is
     
 begin
     -- Reset is active high internally, but button is active low on board
-    reset <= not BTNC;
+    reset <= not reset_btn;
     
     -- Enable audio output
-    AUD_SD <= '1';
+    sd_btn <= '1';
     
     -- Clock divider for generating 25MHz from 100MHz
     clk_divider_inst: entity work.clock_divider
     port map (
-        clk_in => CLK100MHZ,
+        clk_in => CLK_100MHZ,
         reset => reset,
         clk_out => clk_25MHz
     );
@@ -82,22 +82,22 @@ begin
     -- Button debouncing module
     button_controller_inst: entity work.button_controller
     port map (
-        clk => CLK100MHZ,
+        clk => CLK_100MHZ,
         reset => reset,
-        btn_in(0) => BTNU,
-        btn_in(1) => BTNL,
-        btn_in(2) => BTNR,
-        btn_in(3) => BTND,
+        btn_in(0) => up_btn,
+        btn_in(1) => left_btn,
+        btn_in(2) => right_btn,
+        btn_in(3) => down_btn,
         btn_debounced => btn_debounced
     );
     
     -- Song sequencer module
     song_controller_inst: entity work.song_controller
     port map (
-        clk => CLK100MHZ,
+        clk => CLK_100MHZ,
         reset => reset,
         btn_debounced => btn_debounced,
-        sw => SW(15 downto 8),
+        switch => Switch(15 downto 8),
         song_state => song_state,
         note_index => note_index,
         current_lyric => current_lyric,
@@ -109,7 +109,7 @@ begin
     -- Tone generator module
     tone_generator_inst: entity work.tone_generator
     port map (
-        clk => CLK100MHZ,
+        clk => CLK_100MHZ,
         reset => reset,
         song_state => song_state,
         note_index => note_index,
@@ -121,7 +121,7 @@ begin
     port map (
         clk => clk_25MHz,
         reset => reset,
-        pdm_data => JA(1),
+        pdm_data => mic(1),
         mic_data => mic_data,
         sample_ready => mic_sample_ready
     );
@@ -129,7 +129,7 @@ begin
     -- Echo effect and audio mixer
     audio_mixer_inst: entity work.audio_mixer
     port map (
-        clk => CLK100MHZ,
+        clk => CLK_100MHZ,
         reset => reset,
         tone_in => tone_out,
         mic_in => mic_data,
@@ -138,13 +138,13 @@ begin
         mic_volume => mic_volume,
         echo_enabled => echo_enabled,
         mixed_audio => mixed_audio,
-        pwm_out => AUD_PWM
+        pwm_out => pwm_btn
     );
     
     -- LED display controller
     led_controller_inst: entity work.led_controller
     port map (
-        clk => CLK100MHZ,
+        clk => CLK_100MHZ,
         reset => reset,
         song_state => song_state,
         note_index => note_index,
@@ -156,18 +156,18 @@ begin
     -- 7-segment display controller
     seg_display_inst: entity work.seg_display_controller
     port map (
-        clk => CLK100MHZ,
+        clk => CLK_100MHZ,
         reset => reset,
         current_lyric => current_lyric,
-        CA => CA,
-        CB => CB,
-        CC => CC,
-        CD => CD,
-        CE => CE,
-        CF => CF,
-        CG => CG,
-        DP => DP,
-        AN => AN
+        CA1 => CA1,
+        CB1 => CB1,
+        CC1 => CC1,
+        CD1 => CD1,
+        CE1 => CE1,
+        CF1 => CF1,
+        CG1 => CG1,
+        DP1 => DP1,
+        disp => disp
     );
     
 end Behavioral;
