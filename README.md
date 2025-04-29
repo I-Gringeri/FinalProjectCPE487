@@ -11,4 +11,4 @@ The project will also display the lyrics on the screen via the VGA port
 4. 
 
 ### Below is a guide for the function of each button on the board that operates the karaoke machine
-![buttonguide](CPE487FinalProjectButtonMap.png)
+![](CPE487FinalProjectButtonMap.png)
