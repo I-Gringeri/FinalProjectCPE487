@@ -9,3 +9,6 @@ The project will also display the lyrics on the screen via the VGA port
 2. tone generation
 3. vga display
 4. 
+
+###Below is a guide for the function of each button on the board that operates the karaoke machine
+!(CPE 487 Final Project Button Map.png)
