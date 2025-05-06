@@ -6,8 +6,7 @@ entity twinkle_audio is
     Port (
         clk      : in  STD_LOGIC;
         reset    : in  STD_LOGIC;
-        aud_pwm  : out STD_LOGIC;
-        aud_sd   : out STD_LOGIC
+        audio_out_pwm  : out STD_LOGIC
     );
 end twinkle_audio;
 
@@ -21,13 +20,17 @@ architecture Behavioral of twinkle_audio is
     constant A4 : integer := 113636;
     constant REST : integer := 0;
 
-    type note_array is array(0 to 13) of integer;
+    type note_array is array(0 to 47) of integer;
     constant SONG : note_array := (
-        C4, C4, G4, G4, A4, A4, G4,
-        F4, F4, E4, E4, D4, D4, C4
+        C4, C4, G4, G4, A4, A4, G4, G4,
+        F4, F4, E4, E4, D4, D4, C4, C4,
+        G4, G4, F4, F4, E4, E4, D4, D4,
+        G4, G4, F4, F4, E4, E4, D4, D4,
+        C4, C4, G4, G4, A4, A4, G4, G4,
+        F4, F4, E4, E4, D4, D4, C4, C4
     );
 
-    signal note_index : integer range 0 to 13 := 0;
+    signal note_index : integer range 0 to 47 := 0;
     signal note_timer : integer := 0;
     constant NOTE_DURATION : integer := 50000000;  -- 0.5s at 100 MHz
 
@@ -85,14 +88,13 @@ begin
         if rising_edge(clk) then
             pwm_counter <= pwm_counter + 1;
             if pwm_counter < audio_level then
-                aud_pwm <= '1';
+                audio_out_pwm <= '1';
             else
-                aud_pwm <= '0';
+                audio_out_pwm <= '0';
             end if;
         end if;
     end process;
 
     -- Enable amplifier
-    aud_sd <= '1';
 
 end Behavioral;
