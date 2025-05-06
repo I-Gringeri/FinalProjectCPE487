@@ -107,15 +107,22 @@ begin
     );
     
     -- Tone generator module
-    tone_generator_inst: entity work.tone_generator
+--    tone_generator_inst: entity work.tone_generator
+--    port map (
+--        clk => CLK_100MHZ,
+--        reset => reset,
+--        song_state => song_state,
+--        note_index => note_index,
+--        tone_out => tone_out
+--    );
+    -- Tone Generator Using Test Code
+    tone_generator_inst: entity work.twinkle_audio
     port map (
         clk => CLK_100MHZ,
         reset => reset,
-        song_state => song_state,
-        note_index => note_index,
-        tone_out => tone_out
-    );
-    
+        audio_out_pwm => pwm_btn
+      );  
+      
     -- Microphone input processor
     mic_processor_inst: entity work.mic_processor
     port map (
@@ -127,19 +134,19 @@ begin
     );
     
     -- Echo effect and audio mixer
-    audio_mixer_inst: entity work.audio_mixer
-    port map (
-        clk => CLK_100MHZ,
-        reset => reset,
-        tone_in => tone_out,
-        mic_in => mic_data,
-        mic_sample_ready => mic_sample_ready,
-        music_volume => music_volume,
-        mic_volume => mic_volume,
-        echo_enabled => echo_enabled,
-        mixed_audio => mixed_audio,
-        pwm_out => pwm_btn
-    );
+--    audio_mixer_inst: entity work.audio_mixer
+--    port map (
+--        clk => CLK_100MHZ,
+--        reset => reset,
+--        tone_in => tone_out,
+--        mic_in => mic_data,
+--        mic_sample_ready => mic_sample_ready,
+--        music_volume => music_volume,
+--        mic_volume => mic_volume,
+--        echo_enabled => echo_enabled,
+--        mixed_audio => mixed_audio,
+--        pwm_out => pwm_btn
+--    );
     
     -- LED display controller
     led_controller_inst: entity work.led_controller
