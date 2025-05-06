@@ -53,7 +53,7 @@ begin
             -- Play next note after NOTE_DURATION
             if note_timer >= NOTE_DURATION then
                 note_timer <= 0;
-                if note_index < 13 then
+                if note_index < 47 then
                     note_index <= note_index + 1;
                 else
                     note_index <= 0;  -- loop the song
