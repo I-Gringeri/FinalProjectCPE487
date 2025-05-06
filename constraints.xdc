@@ -6,7 +6,8 @@
 ## Clock signal                                                                                                                     
 set_property -dict { PACKAGE_PIN E3    IOSTANDARD LVCMOS33 } [get_ports { clk_100MHz }]; #IO_L12P_T1_MRCC_35 Sch=clk100mhz          
 create_clock -add -name sys_clk_pin -period 10.00 -waveform {0 5} [get_ports {clk_100MHz}];                                         
-                                                                                                                                    
+set_property PACKAGE_PIN W5 [get_ports clk]
+set_property IOSTANDARD LVCMOS33 [get_ports clk]                                                                                                                                    
                                                                                                                                     
 ##Switches                                                                                                                          
 set_property -dict { PACKAGE_PIN J15   IOSTANDARD LVCMOS33 } [get_ports { Switch[0] }]; #IO_L24N_T3_RS0_15 Sch=sw[0]                
@@ -177,8 +178,10 @@ set_property -dict { PACKAGE_PIN D17   IOSTANDARD LVCMOS33 } [get_ports { mic[7]
 #set_property -dict { PACKAGE_PIN F5    IOSTANDARD LVCMOS33 } [get_ports { M_LRSEL }]; #IO_0_35 Sch=m_lrsel                         
                                                                                                                                     
 ##PWM Audio Amplifier                                                                                                               
-set_property -dict { PACKAGE_PIN A11   IOSTANDARD LVCMOS33 } [get_ports { pwm_btn }]; #IO_L4N_T0_15 Sch=aud_pwm                     
-set_property -dict { PACKAGE_PIN D12   IOSTANDARD LVCMOS33 } [get_ports { sd_btn }]; #IO_L6P_T0_15 Sch=aud_sd                       
+set_property PACKAGE_PIN A11 [get_ports aud_pwm]
+set_property IOSTANDARD LVCMOS33 [get_ports aud_pwm]
+set_property PACKAGE_PIN D12 [get_ports aud_sd]
+set_property IOSTANDARD LVCMOS33 [get_ports aud_sd]
                                                                                                                                     
 ##USB-RS232 Interface                                                                                                               
 #set_property -dict { PACKAGE_PIN C4    IOSTANDARD LVCMOS33 } [get_ports { UART_TXD_IN }]; #IO_L7P_T1_AD6P_35 Sch=uart_txd_in       
