@@ -77,7 +77,7 @@ begin
     process(clk)
     begin
         if rising_edge(clk) then
-            pixels <= rom(to_integer(unsigned(char)))(to_integer(unsigned(row)));
+            pixels <= rom(to_integer(unsigned(char)), to_integer(unsigned(row)));
         end if;
     end process;
 end Behavioral;
