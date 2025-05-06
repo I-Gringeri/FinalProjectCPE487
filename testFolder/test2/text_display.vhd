@@ -13,16 +13,16 @@ end text_display;
 
 architecture Behavioral of text_display is
     type string_array is array (0 to 7) of string(1 to 40);
-    constant lyrics : string_array := (
-        "Twinkle twinkle little star      ",
-        "How I wonder what you are        ",
-        "Up above the world so high       ",
-        "Like a diamond in the sky        ",
-        "Twinkle twinkle little star      ",
-        "How I wonder what you are        ",
-        "                                ",
-        "                                "
-    );
+constant lyrics : string_array := (
+    "Twinkle twinkle little star             ",
+    "How I wonder what you are               ",
+    "Up above the world so high              ",
+    "Like a diamond in the sky               ",
+    "Twinkle twinkle little star             ",
+    "How I wonder what you are               ",
+    "                                        ",
+    "                                        "
+);
 begin
     process(line_index, row, col)
     begin
