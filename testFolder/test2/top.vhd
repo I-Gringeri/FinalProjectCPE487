@@ -4,12 +4,18 @@ use ieee.numeric_std.all;
 
 entity top is
     port (
+    -- VGA Input and Outputs
         clk     : in  std_logic;
         hsync   : out std_logic;
         vsync   : out std_logic;
         red     : out std_logic_vector(3 downto 0);
         green   : out std_logic_vector(3 downto 0);
-        blue    : out std_logic_vector(3 downto 0)
+        blue    : out std_logic_vector(3 downto 0);
+        
+    -- Button Inputs
+        btnu : IN STD_LOGIC;
+        btnc : IN STD_LOGIC;
+        btnd : IN STD_LOGIC
     );
 end top;
 
@@ -22,6 +28,11 @@ architecture Behavioral of top is
     signal font_row         : std_logic_vector(2 downto 0);
     signal pixels           : std_logic_vector(7 downto 0);
     signal pixel_bit        : std_logic;
+    
+    -- Music Control Signals
+    signal play : std_logic;
+    signal stop : std_logic;
+    signal rst : std_logic;
 
     constant CHAR_WIDTH  : integer := 8;
     constant CHAR_HEIGHT : integer := 8;
@@ -73,4 +84,24 @@ begin
     red   <= (others => pixel_bit and video_on);
     green <= (others => pixel_bit and video_on);
     blue  <= (others => pixel_bit and video_on);
+    
+    -- MUSIC CONTROLS AND INSTANTIATION -----------------------------------------------------------------------
+    
+play_stop_reset : process(clk) is
+begin
+    if rising_edge(clk) then
+        rst <= '0';
+        play <= '0';
+        stop <= '0';
+        
+        if btnu = '1' then
+            play <= '1';
+        elsif btnc = '1' then
+            rst <= '1';
+        elsif btnd = '1' then
+            stop <= '1';
+        end if;
+    end if;
+end process;
+            
 end Behavioral;
