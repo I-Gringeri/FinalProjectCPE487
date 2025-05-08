@@ -34,4 +34,5 @@ The project will also display the lyrics on the screen via the VGA port
   - Click 'Open Hardware Manager' and click 'Open Target' then 'Auto Connect'
 
   - Click 'Program Device' then xc7a100t_0 to download top.bit to the Nexys A7-100T board
+### 5. The program should automatically run
 
