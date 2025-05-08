@@ -9,17 +9,18 @@ The project also displays the lyrics on screen via the VGA port in sync with the
 
 This project combines real-time **audio tone generation** and **VGA lyric display** using VHDL on a **Nexys A7-100T FPGA**. It integrates FSM control, character rendering from ROM, VGA signal timing, and a musical tone engine.
 
-### Core Features:
+### Core Features
 - VGA text output that scrolls lyrics in sync with the melody
 - A tone generator module that plays the melody using square wave audio
 - A finite state machine (FSM) that sequences notes and lyric transitions
 - Support for reset/start controls using on-board buttons
 
----
+### Required Attachments
+- 3.5 mm audio jack output to speaker or headphones
+- VGA monitor connected to the VGA output port on Nexys A7
+- Nexys A7-100T board with proper constraint mappings
 
-### Karaoke Machine Button Guide  
-The following diagram maps each button to its function:
-![buttonguide](CPE487FinalProjectButtonMap.png)
+---
 
 ## Module Descriptions
 
@@ -91,6 +92,37 @@ The following diagram maps each button to its function:
 
 ---
 
+## Block Diagram
+
+![blockdiagram](whendone.png)
+
+---
+
+## Nexys A7 Board Inputs/Outputs
+
+### Inputs:
+| Signal        | Source    | Description                       |
+|---------------|-----------|-----------------------------------|
+| `btnC`        | Button C  | Play/Pause toggle                 |
+| `btnU`        | Button U  | Reset playback                    |
+| `clk`         | 100 MHz   | System clock                      |
+
+### Outputs:
+| Signal       | Destination   | Description                      |
+|--------------|---------------|----------------------------------|
+| `vgaRed`     | VGA Port      | Red channel (4 bits)             |
+| `vgaGreen`   | VGA Port      | Green channel (4 bits)           |
+| `vgaBlue`    | VGA Port      | Blue channel (4 bits)            |
+| `Hsync`      | VGA Port      | Horizontal sync                  |
+| `Vsync`      | VGA Port      | Vertical sync                    |
+| `audio_out`  | Pmod/speaker  | Audio signal (square wave)       |
+
+### Karaoke Machine Button Guide  
+The following diagram maps each button to its function:
+![buttonguide](CPE487FinalProjectButtonMap.png)
+
+---
+
 ## Build Instructions
 ### 1. Create a new RTL project TwinkleTwinkle in Vivado Quick Start
   - Create four new source files of file type VHDL called char_rom, text_display, top, twinkle_audio, twinkle_fsm and vga_synch
@@ -122,3 +154,49 @@ The following diagram maps each button to its function:
     
   - VGA monitor shows lyrics synced to melody
 
+---
+
+## Images of Project in Action
+
+### Lyrics on VGA
+![vgascreen](whendone.png)
+
+### Board Setup
+![boardsetup](whendone.png)
+
+---
+
+## Challenges and Solutions
+
+- **Character ROM Mapping Issues**: Characters initially displayed reversed due to bit-ordering mismatch — resolved by adjusting column indexing.
+- **FSM Timing Sync**: Required careful tuning of FSM and VGA frame rate to ensure lyrics progressed correctly with audio.
+- **VGA Repetition Bug**: Solved after refining row/column indexing and verifying line spacing logic.
+
+---
+
+## Future Additions 
+
+### 1) Add a Microphone Input for Real Karaoke
+- Use an ADC module (e.g. Pmod MIC3)
+- Capture mic input and show real-time pitch analysis
+
+### 2) Highlight Lyrics While Singing
+- Add logic to change character color when its note is playing
+- Modify `text_display` to support colored characters or underline mode
+
+### 3) Add Multiple Songs
+- Extend FSM and ROM to store multiple melody/lyric pairs
+- Use buttons or switches to select the active song
+
+### 4) Add Audio Filtering
+- Implement basic low-pass filter for smoother tone
+- Optionally upgrade from square wave to triangle or sine synthesis
+
+---
+
+## Contribution Breakdown
+- Danielle Bonk:
+- Isabel Gringeri:
+- William Hines:
+
+All group members contributed collaboratively to the design, implementation, and testing of the karaoke machine. During class sessions, we primarily worked together on Isabel's laptop, allowing us to collaboratively debug, write VHDL, and test functionality on the Nexys A7 board. During home work sessions, we met and worked on Will's PC, continuing development together.
