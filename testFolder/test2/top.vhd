@@ -15,7 +15,12 @@ entity top is
     -- Button Inputs
         btnu : IN STD_LOGIC;
         btnc : IN STD_LOGIC;
-        btnd : IN STD_LOGIC
+        btnd : IN STD_LOGIC;
+        
+    -- Audio Playing I/O
+        reset         : in  STD_LOGIC;  -- External reset
+        audio_out_pwm : out STD_LOGIC;
+        aud_sd        : out STD_LOGIC   -- Audio shutdown (active low)
     );
 end top;
 
@@ -103,5 +108,13 @@ begin
         end if;
     end if;
 end process;
+
+audio_player : entity work.twinkle_audio
+    port map (
+        clk => clk,
+        reset => reset,
+        audio_out_pwm => audio_out_pwm,
+        aud_sd => aud_sd
+    );
             
 end Behavioral;
