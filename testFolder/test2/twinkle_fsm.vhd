@@ -13,7 +13,7 @@ end twinkle_fsm;
 architecture Behavioral of twinkle_fsm is
     signal counter      : integer := 0;
     signal current_line : integer range 0 to 7 := 0;
-    constant MAX_COUNT  : integer := 120_000_000; -- Change line every ~2s at 60MHz
+    constant MAX_COUNT  : integer := 400_000_000; -- Change line every ~4s at 100MHz
 begin
     process(clk)
     begin
