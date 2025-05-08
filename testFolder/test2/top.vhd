@@ -112,7 +112,9 @@ end process;
 audio_player : entity work.twinkle_audio
     port map (
         clk => clk,
-        reset => reset,
+        reset => rst,
+        play => play,
+        stop => stop,
         audio_out_pwm => audio_out_pwm,
         aud_sd => aud_sd
     );
