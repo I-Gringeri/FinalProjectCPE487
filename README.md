@@ -1,10 +1,8 @@
-# CPE 487 Final Project
+# CPE 487 Final Project: Karaoke Machine
 ### Danielle Bonk, Isabel Gringeri, William Hines
-
-## Our Project: A Karaoke Machine
 We created a karaoke machine that plays the notes to the children's nursery rhyme, 'Twinkle Twinkle Little Star'
 The project will also display the lyrics on the screen via the VGA port
----
+
 1. top level
 2. tone generation
 3. vga display
