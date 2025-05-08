@@ -5,6 +5,8 @@ entity twinkle_audio is
     Port (
         clk           : in  STD_LOGIC;
         reset         : in  STD_LOGIC;  -- External reset
+        play          : in STD_LOGIC;
+        stop          : in STD_LOGIC;
         audio_out_pwm : out STD_LOGIC;
         aud_sd        : out STD_LOGIC   -- Audio shutdown (active low)
     );
