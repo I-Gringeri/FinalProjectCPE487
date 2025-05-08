@@ -28,7 +28,8 @@ architecture Behavioral of top is
     signal pixel_x, pixel_y : integer range 0 to 639;
     signal video_on         : std_logic;
     signal line_index       : integer range 0 to 7;
-    signal row, col         : integer range 0 to 29;
+    signal row              : integer range 0 to 37;
+    signal  col             : integer range 0 to 99;
     signal char_code        : std_logic_vector(7 downto 0);
     signal font_row         : std_logic_vector(2 downto 0);
     signal pixels           : std_logic_vector(7 downto 0);
@@ -83,7 +84,7 @@ begin
             pixels => pixels
         );
 
-    pixel_bit <= pixels(to_integer(unsigned(std_logic_vector(to_unsigned(pixel_x mod 8, 3)))));
+    pixel_bit <= pixels(7 - to_integer(unsigned(std_logic_vector(to_unsigned(pixel_x mod 8, 3)))));
 
     -- VGA color output
     red   <= (others => pixel_bit and video_on);
