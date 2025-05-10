@@ -40,6 +40,9 @@ architecture Behavioral of top is
     signal stop : std_logic;
     signal rst : std_logic;
 
+    -- Measure Number
+    signal measure_num : integer range 0 to 7;
+
     constant CHAR_WIDTH  : integer := 8;
     constant CHAR_HEIGHT : integer := 8;
 begin
@@ -59,7 +62,9 @@ begin
         port map (
             clk        => clk,
             reset      => '0',
-            line_index => line_index
+            play       => play,
+            line_index => line_index,
+            current_line => measure_num
         );
 
     -- Character position
