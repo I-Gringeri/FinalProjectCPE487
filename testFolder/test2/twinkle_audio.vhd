@@ -22,12 +22,12 @@ architecture Behavioral of twinkle_audio is
     constant REST : integer := 0;
     type note_array is array(0 to 47) of integer;
     constant SONG : note_array := (
-        C4, C4, G4, G4, A4, A4, G4, G4,
-        F4, F4, E4, E4, D4, D4, C4, C4,
-        G4, G4, F4, F4, E4, E4, D4, D4,
-        G4, G4, F4, F4, E4, E4, D4, D4,
-        C4, C4, G4, G4, A4, A4, G4, G4,
-        F4, F4, E4, E4, D4, D4, C4, C4
+        C4, C4, G4, G4, A4, A4, G4, REST,
+        F4, F4, E4, E4, D4, D4, C4, REST,
+        G4, G4, F4, F4, E4, E4, D4, REST,
+        G4, G4, F4, F4, E4, E4, D4, REST,
+        C4, C4, G4, G4, A4, A4, G4, REST,
+        F4, F4, E4, E4, D4, D4, C4, REST,
     );
     
     signal note_index : integer range 0 to 47 := 0;
@@ -42,6 +42,8 @@ begin
     -- Tone generation based on current note
     process(clk, reset)
     begin
+    
+    if play = '1' then
         if reset = '1' then
             tone_counter <= 0;
             square_wave <= '0';
@@ -54,7 +56,7 @@ begin
                 if note_index < 47 then
                     note_index <= note_index + 1;
                 else
-                    note_index <= 0;  -- loop the song
+                    play <= '0';
                 end if;
             else
                 note_timer <= note_timer + 1;
@@ -73,6 +75,7 @@ begin
                 square_wave <= '0';
             end if;
         end if;
+    end if;
     end process;
     -- Convert square wave to PWM amplitude
     audio_level <= x"7FFF" when square_wave = '1' else x"0000";
