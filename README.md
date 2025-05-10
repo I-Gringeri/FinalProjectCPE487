@@ -195,8 +195,4 @@ The following diagram maps each button to its function:
 ---
 
 ## Contribution Breakdown
-- Danielle Bonk:
-- Isabel Gringeri:
-- William Hines:
-
 All group members contributed collaboratively to the design, implementation, and testing of the karaoke machine. During class sessions, we primarily worked together on Isabel's laptop, allowing us to collaboratively debug, write VHDL, and test functionality on the Nexys A7 board. During home work sessions, we met and worked on Will's PC, continuing development together.
