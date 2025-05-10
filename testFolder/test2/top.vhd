@@ -58,7 +58,7 @@ begin
         );
 
     -- FSM for lyric line control
-    fsm_inst : entity work.twinkle_fsm
+    fsm_inst : entity work.lyrics_fsm
         port map (
             clk        => clk,
             reset      => '0',
