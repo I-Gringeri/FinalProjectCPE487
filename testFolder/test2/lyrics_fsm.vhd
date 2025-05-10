@@ -10,9 +10,9 @@ entity lyrics_fsm is
         line_index  : out integer range 0 to 7;
         current_line : out integer rand 0 to 7 :=0
     );
-end twinkle_fsm;
+end lyrics_fsm;
 
-architecture Behavioral of twinkle_fsm is
+architecture Behavioral of lyrics_fsm is
     signal counter      : integer := 0;
     constant MAX_COUNT  : integer := 400_000_000; -- Change line every ~4s at 100MHz
 begin
