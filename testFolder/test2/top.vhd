@@ -74,9 +74,12 @@ begin
     -- Character ROM access
     text_gen : entity work.text_display
         port map (
+            clk => clk,
+            reset => reset,
             line_index => line_index,
             row        => row,
             col        => col,
+            play       => play,
             char_out   => char_code
         );
 
