@@ -4,15 +4,14 @@ use IEEE.NUMERIC_STD.ALL;
 entity twinkle_audio is
     Port (
         clk           : in  STD_LOGIC;
-        reset         : in  STD_LOGIC;  -- External reset
+        reset         : in  STD_LOGIC;
         play          : in STD_LOGIC;
         stop          : in STD_LOGIC;
         audio_out_pwm : out STD_LOGIC;
-        aud_sd        : out STD_LOGIC   -- Audio shutdown (active low)
+        aud_sd        : out STD_LOGIC
     );
 end twinkle_audio;
 architecture Behavioral of twinkle_audio is
-    -- Note frequency counts for 100MHz clock
     constant C4 : integer := 191113;
     constant D4 : integer := 170262;
     constant E4 : integer := 151686;
@@ -22,12 +21,12 @@ architecture Behavioral of twinkle_audio is
     constant REST : integer := 0;
     type note_array is array(0 to 47) of integer;
     constant SONG : note_array := (
-        C4, C4, G4, G4, A4, A4, G4, REST,
-        F4, F4, E4, E4, D4, D4, C4, REST,
-        G4, G4, F4, F4, E4, E4, D4, REST,
-        G4, G4, F4, F4, E4, E4, D4, REST,
-        C4, C4, G4, G4, A4, A4, G4, REST,
-        F4, F4, E4, E4, D4, D4, C4, REST,
+        C4, C4, G4, G4, A4, A4, G4, G4,
+        F4, F4, E4, E4, D4, D4, C4, C4,
+        G4, G4, F4, F4, E4, E4, D4, D4,
+        G4, G4, F4, F4, E4, E4, D4, D4,
+        C4, C4, G4, G4, A4, A4, G4, G4,
+        F4, F4, E4, E4, D4, D4, C4, C4
     );
     
     signal note_index : integer range 0 to 47 := 0;
@@ -38,48 +37,66 @@ architecture Behavioral of twinkle_audio is
     signal square_wave  : STD_LOGIC := '0';
     signal pwm_counter  : unsigned(15 downto 0) := (others => '0');
     signal audio_level  : unsigned(15 downto 0);
+    
+    type play_state_type is (IDLE, PLAYING, COMPLETED);
+    signal play_state : play_state_type := IDLE;
+    signal play_triggered : std_logic := '0';
 begin
-    -- Tone generation based on current note
     process(clk, reset)
     begin
-    
-    if play = '1' then
         if reset = '1' then
             tone_counter <= 0;
             square_wave <= '0';
             note_index <= 0;
             note_timer <= 0;
+            play_state <= IDLE;
+            play_triggered <= '0';
         elsif rising_edge(clk) then
-            -- Play next note after NOTE_DURATION
-            if note_timer >= NOTE_DURATION then
+            if play = '1' and play_state = IDLE then
+                play_state <= PLAYING;
+                play_triggered <= '1';
+                note_index <= 0;
                 note_timer <= 0;
-                if note_index < 47 then
-                    note_index <= note_index + 1;
-                else
-                    play <= '0';
-                end if;
-            else
-                note_timer <= note_timer + 1;
             end if;
-            -- Set tone limit from song
-            tone_limit <= SONG(note_index);
-            -- Generate square wave tone
-            if tone_limit /= 0 then
-                if tone_counter >= tone_limit then
-                    tone_counter <= 0;
-                    square_wave <= not square_wave;
+            
+            if play_state = PLAYING then
+                if note_timer >= NOTE_DURATION then
+                    note_timer <= 0;
+                    if note_index < 47 then
+                        note_index <= note_index + 1;
+                    else
+                        play_state <= COMPLETED;
+                    end if;
                 else
-                    tone_counter <= tone_counter + 1;
+                    note_timer <= note_timer + 1;
+                end if;
+                
+                tone_limit <= SONG(note_index);
+                
+                if tone_limit /= 0 then
+                    if tone_counter >= tone_limit then
+                        tone_counter <= 0;
+                        square_wave <= not square_wave;
+                    else
+                        tone_counter <= tone_counter + 1;
+                    end if;
+                else
+                    square_wave <= '0';
                 end if;
             else
                 square_wave <= '0';
             end if;
+            
+            if stop = '1' then
+                play_state <= IDLE;
+                note_index <= 0;
+                note_timer <= 0;
+            end if;
         end if;
-    end if;
     end process;
-    -- Convert square wave to PWM amplitude
-    audio_level <= x"7FFF" when square_wave = '1' else x"0000";
-    -- Simple PWM generator
+    
+    audio_level <= x"7FFF" when (square_wave = '1' and play_state = PLAYING) else x"0000";
+    
     process(clk)
     begin
         if rising_edge(clk) then
@@ -91,6 +108,6 @@ begin
             end if;
         end if;
     end process;
-    -- Enable amplifier
-    aud_sd <= '1';  -- Enable the audio amplifier
+    
+    aud_sd <= '1' when play_state = PLAYING else '0';
 end Behavioral;
