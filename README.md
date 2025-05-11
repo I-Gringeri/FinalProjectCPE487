@@ -103,8 +103,8 @@ This project combines real-time **audio tone generation** and **VGA lyric displa
 ### Inputs:
 | Signal        | Source    | Description                       |
 |---------------|-----------|-----------------------------------|
-| `btnC`        | Button C  | Play/Pause toggle                 |
-| `btnU`        | Button U  | Reset playback                    |
+| `btnC`        | Button C  | Play                              |
+| `btnU`        | Button U  | Reset                             |
 | `clk`         | 100 MHz   | System clock                      |
 
 ### Outputs:
