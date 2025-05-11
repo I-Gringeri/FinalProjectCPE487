@@ -94,7 +94,7 @@ This project combines real-time **audio tone generation** and **VGA lyric displa
 
 ## Block Diagram
 
-![blockdiagram](whendone.png)
+![blockdiagram](blockdiagram.png)
 
 ---
 
