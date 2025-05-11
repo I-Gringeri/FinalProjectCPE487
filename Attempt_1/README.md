@@ -8,4 +8,4 @@ This made each feature extremely hard to debug
 3. It became apparent that the scope of the code was too large, and an iterative approach to debugging by getting a working implementation of each desired feature (audio, lyrics, etc) was better
 
 This is the original button map for this implementation:
-![CPE487ButtonMap.PNG](CPE487FinalProjectButtonMap.PNG)
+![CPE487ButtonMap.PNG](CPE487FinalProjectButtonMap.png)
