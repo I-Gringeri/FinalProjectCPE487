@@ -63,8 +63,7 @@ begin
             clk        => clk,
             reset      => '0',
             play       => play,
-            line_index => line_index,
-            current_line => measure_num
+            line_index => line_index
         );
 
     -- Character position
@@ -100,11 +99,10 @@ begin
     
 play_stop_reset : process(clk) is
 begin
-    if rising_edge(clk) then
         rst <= '0';
         play <= '0';
         stop <= '0';
-        
+    if rising_edge(clk) then
         if btnu = '1' then
             play <= '1';
         elsif btnc = '1' then
