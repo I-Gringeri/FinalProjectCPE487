@@ -119,7 +119,7 @@ This project combines real-time **audio tone generation** and **VGA lyric displa
 
 ### Karaoke Machine Button Guide  
 The following diagram maps each button to its function:
-![buttonguide](CPE487FinalProjectButtonMap.png)
+![buttonguide](ButtonMap.png)
 
 ---
 
