@@ -176,19 +176,19 @@ The following diagram maps each button to its function:
 
 ## Future Additions 
 
-### 1) Add a Microphone Input for Real Karaoke
+### 1. Add a Microphone Input for Real Karaoke
 - Use an ADC module (e.g. Pmod MIC3)
 - Capture mic input and show real-time pitch analysis
 
-### 2) Highlight Lyrics While Singing
+### 2. Highlight Lyrics While Singing
 - Add logic to change character color when its note is playing
 - Modify `text_display` to support colored characters or underline mode
 
-### 3) Add Multiple Songs
+### 3. Add Multiple Songs
 - Extend FSM and ROM to store multiple melody/lyric pairs
 - Use buttons or switches to select the active song
 
-### 4) Add Audio Filtering
+### 4. Add Audio Filtering
 - Implement basic low-pass filter for smoother tone
 - Optionally upgrade from square wave to triangle or sine synthesis
 
