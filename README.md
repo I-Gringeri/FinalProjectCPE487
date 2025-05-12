@@ -124,7 +124,7 @@ The following diagram maps each button to its function:
 ---
 
 ## Build Instructions
-### 1. Create a new RTL project TwinkleTwinkle in Vivado Quick Start
+### 1. Create a new RTL project Twinkle Twinkle in Vivado Quick Start
   - Create four new source files of file type VHDL called char_rom, text_display, top, twinkle_audio, twinkle_fsm and vga_synch
 
   - Create a new constraint file of file type XDC called const
