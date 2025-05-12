@@ -160,9 +160,6 @@ The following diagram maps each button to its function:
 
 ## Images of Project in Action
 
-### Lyrics on VGA
-![vgascreen](whendone.png)
-
 ### Board Setup
 ![boardsetup](BoardSetup.jpg)
 
