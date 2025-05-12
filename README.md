@@ -162,7 +162,7 @@ The following diagram maps each button to its function:
 ![vgascreen](whendone.png)
 
 ### Board Setup
-![boardsetup](whendone.png)
+![boardsetup](BoardSetup.jpg)
 
 ---
 
