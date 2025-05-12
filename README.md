@@ -1,5 +1,7 @@
 # CPE 487 Final Project: Karaoke Machine
 ### Danielle Bonk, Isabel Gringeri, William Hines
+[Demo Video](https://youtube.com/shorts/Lp6_Z1P_TPM?feature=share)
+
 We created a karaoke machine that plays the notes to the children's nursery rhyme, **_Twinkle Twinkle Little Star_**.  
 The project also displays the lyrics on screen via the VGA port in sync with the melody playback.
 
