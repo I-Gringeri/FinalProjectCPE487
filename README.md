@@ -1,6 +1,5 @@
 # CPE 487 Final Project: Karaoke Machine
 ### Danielle Bonk, Isabel Gringeri, William Hines
-[Demo Video](https://youtube.com/shorts/Lp6_Z1P_TPM?feature=share)
 
 We created a karaoke machine that plays the notes to the children's nursery rhyme, **_Twinkle Twinkle Little Star_**.  
 The project also displays the lyrics on screen via the VGA port in sync with the melody playback.
@@ -125,6 +124,11 @@ The following diagram maps each button to its function:
 
 ---
 
+## Modifications
+
+
+---
+
 ## Build Instructions
 ### 1. Create a new RTL project Twinkle Twinkle in Vivado Quick Start
   - Create four new source files of file type VHDL called char_rom, text_display, top, twinkle_audio, twinkle_fsm and vga_synch
@@ -160,7 +164,11 @@ The following diagram maps each button to its function:
 
 ## Images of Project in Action
 
-### Board Setup
+### 1. Audio and VGA Display
+The functioning audio and VGA display can be seen in the following: [Demo Video](https://youtube.com/shorts/Lp6_Z1P_TPM?feature=share)
+
+### 2. Board Setup
+
 ![boardsetup](BoardSetup.jpg)
 
 ---
@@ -195,3 +203,6 @@ The following diagram maps each button to its function:
 
 ## Contribution Breakdown
 All group members contributed collaboratively to the design, implementation, and testing of the karaoke machine. During class sessions, we primarily worked together on Isabel's laptop, allowing us to collaboratively debug, write VHDL, and test functionality on the Nexys A7 board. During home work sessions, we met and worked on Will's PC, continuing development together.
+
+## Timeline
+Play "Twinkle Twinkle Little Star" via PWM square wave tone generation -> Display synchronized lyrics using VGA -> Interactive controls for starting and resetting the song
