@@ -125,16 +125,29 @@ The following diagram maps each button to its function:
 ---
 
 ## Modifications
-To start this project, we did not start with base code from a lab. We went through the labs to see what would be helpful, like looking at the siren lab to see how we could pull in the square waves to help our development, but with the way that they were being called we saw that the only thing we could do was do our best to understand how the code was creating the waves and go from there. 
+We wrote our project from scrath with the help of LLMs like Claude and ChatGPT to give us code to start with, which we generated part by part, and tinkered with many parts of the code from there to troubleshoot the many issues we had throughout the development process. This section will outline the main parts of our project that required the most work. 
 
-To start the process of creating the code, we consulted ai (claude and chatgpt) to see how the project could be started. While doing this we also searched online for any similar projects, which weren’t easy to find, and the only one that we could find was a [FPGA-MP3](https://github.com/evanfrazierc/FPGA-MP3-Player/blob/master/play_audio.v), which gave us the idea to try using importing youtube videos but that didn’t work.
+1. The button logic and play/idle state machines
 
-Within our [Attempt_1](./Attempt_1) module we used the base code that Claude provided to get a basic understanding of how this project should be built so that we could figure out how to parse together the different modules. This code was not functional at all, no sound, no vga, just theoretical code that we could look at and work from to see if we could get anything working. 
+    ![mod1](mod1.png)
 
-Once we reached this point we decided to roll back and go one at a time, the thought process being that if we start with getting the sound to work then work on vga then buttons, so within [Attempt_2](./Attempt_2) we got some sound. Not perfect or remotely like Twinkle Twinkle Little Star, but from there we were able to find square wave frequencies that could then be converted to the correct notes of the song. At this point, we created a new top module so that we could combine the working sound and allow for it to be connected to the clock, the lyrics, characters, and vga sync. 
-From there we were able to build upon the code we had, consult ai and look at the constraint files and past projects (specifically space invaders from Spring 2024) to help figure out how to work with the ascii characters. 
+   ![mod2](mod2.png)
+   
+3. We wrote the lyrics_fsm file from scratch in order to get the lyrics to display properly, and get the correct timing.
 
-The small steps we took part by part to get this project working instead of big leaps were what our group was able to use so that we could get a deep understanding of how the code was working and ensure that we could figure out where our issues were.  
+    ![mod5](mod5.png)
+   
+5. The audio amplifier signal was something we had to discover, and was the main breakthrough needed to successfully get the audio to play
+
+    ![mod3](mod3.png)
+   
+7.  There were many characters missing or incorrect within the char_rom file which needed to be fixed to get the lyrics to display properly
+
+ ![mod4](mod4.png)
+ 
+9. We ran into a persisting issue with the letters of the lyrics displaying in the correct order, but each one was backwards. We modified the following line in top to fix this issue
+    
+   ![mod6](mod6.png)
 
 ---
 
@@ -215,3 +228,15 @@ All group members contributed collaboratively to the design, implementation, and
 
 ## Timeline
 Play "Twinkle Twinkle Little Star" via PWM square wave tone generation -> Display synchronized lyrics using VGA -> Interactive controls for starting and resetting the song
+
+## Our Development Process
+To start this project, we did not start with base code from a lab. We went through the labs to see what would be helpful, like looking at the siren lab to see how we could pull in the square waves to help our development, but with the way that they were being called we saw that the only thing we could do was do our best to understand how the code was creating the waves and go from there. 
+
+To start the process of creating the code, we consulted ai (claude and chatgpt) to see how the project could be started. While doing this we also searched online for any similar projects, which weren’t easy to find, and the only one that we could find was a [FPGA-MP3](https://github.com/evanfrazierc/FPGA-MP3-Player/blob/master/play_audio.v), which gave us the idea to try using importing youtube videos but that didn’t work.
+
+Within our [Attempt_1](./Attempt_1) module we used the base code that Claude provided to get a basic understanding of how this project should be built so that we could figure out how to parse together the different modules. This code was not functional at all, no sound, no vga, just theoretical code that we could look at and work from to see if we could get anything working. 
+
+Once we reached this point we decided to roll back and go one at a time, the thought process being that if we start with getting the sound to work then work on vga then buttons, so within [Attempt_2](./Attempt_2) we got some sound. Not perfect or remotely like Twinkle Twinkle Little Star, but from there we were able to find square wave frequencies that could then be converted to the correct notes of the song. At this point, we created a new top module so that we could combine the working sound and allow for it to be connected to the clock, the lyrics, characters, and vga sync. 
+From there we were able to build upon the code we had, consult ai and look at the constraint files and past projects (specifically space invaders from Spring 2024) to help figure out how to work with the ascii characters. 
+
+The small steps we took part by part to get this project working instead of big leaps were what our group was able to use so that we could get a deep understanding of how the code was working and ensure that we could figure out where our issues were.  
